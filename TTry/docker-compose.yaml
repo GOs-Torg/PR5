@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  api:
+    restart: always
+    build: ./publish
+    ports:
+      - 8086:80
+    depends_on:
+      - mssql
+  mssql:
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Password_1
+      - ACCEPT_EULA=Y
+    ports:
+      - 1433:1433
+    volumes:
+      - mssql_data:/var/lib/mssql
+  adminer:
+    restart: always
+    image: adminer
+    ports:
+      - 8888:8080
+
+volumes:
+  mssql_data:
